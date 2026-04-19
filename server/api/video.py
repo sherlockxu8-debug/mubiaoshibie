@@ -13,7 +13,7 @@ from services.detector import YOLODetector
 from services.video_processor import VideoProcessor
 
 config_path = Path(__file__).parent.parent / "config.yaml"
-with open(config_path, "r") as f:
+with open(config_path, "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
 
 upload_dir = Path(__file__).parent.parent.parent / config["video"]["upload_dir"]

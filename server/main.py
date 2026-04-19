@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import camera, video, result
+from api import camera, video, result, yolo
 from services.database import init_db
 
 app = FastAPI(
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(camera.router, prefix="/api")
 app.include_router(video.router, prefix="/api")
 app.include_router(result.router, prefix="/api")
+app.include_router(yolo.router, prefix="/api")
 
 
 @app.on_event("startup")

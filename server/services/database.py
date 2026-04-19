@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from models.models import Base
 
 config_path = Path(__file__).parent.parent / "config.yaml"
-with open(config_path, "r") as f:
+with open(config_path, "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
 
 db_path = Path(__file__).parent.parent.parent / config["database"]["path"]
