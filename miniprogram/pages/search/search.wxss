@@ -1,0 +1,146 @@
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 20rpx 0 30rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.search-box {
+  margin-bottom: 30rpx;
+}
+
+.search-row {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.search-input {
+  flex: 1;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.btn-search {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8rpx;
+  padding: 0 40rpx;
+  font-size: 28rpx;
+}
+
+.picker-value {
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.result-count {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.result-item {
+  margin-bottom: 0;
+}
+
+.result-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15rpx;
+}
+
+.item-icon {
+  font-size: 48rpx;
+  margin-right: 15rpx;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.class-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.confidence-bar {
+  height: 8rpx;
+  background-color: #e8e8e8;
+  border-radius: 4rpx;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #52c41a, #7cde5a);
+  border-radius: 4rpx;
+}
+
+.confidence-text {
+  font-size: 22rpx;
+  color: #52c41a;
+}
+
+.result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.empty-state, .loading-state {
+  text-align: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  display: block;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-top: 10rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 24rpx;
+}

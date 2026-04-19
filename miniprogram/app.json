@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/history/history",
+    "pages/search/search",
+    "pages/camera/camera"
+  ],
+  "window": {
+    "navigationBarTitleText": "校园失物寻找",
+    "navigationBarBackgroundColor": "#1890ff",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/home.png",
+        "selectedIconPath": "assets/home-active.png"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "历史",
+        "iconPath": "assets/history.png",
+        "selectedIconPath": "assets/history-active.png"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "text": "搜索",
+        "iconPath": "assets/search.png",
+        "selectedIconPath": "assets/search-active.png"
+      },
+      {
+        "pagePath": "pages/camera/camera",
+        "text": "摄像头",
+        "iconPath": "assets/camera.png",
+        "selectedIconPath": "assets/camera-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

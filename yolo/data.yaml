@@ -1,0 +1,16 @@
+path: ./data
+train: images/train
+val: images/val
+
+nc: 10
+names:
+  - backpack
+  - phone
+  - wallet
+  - keys
+  - book
+  - water_bottle
+  - umbrella
+  - laptop
+  - headphones
+  - other

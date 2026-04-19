@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="header">
+    <view class="header-left">
+      <view class="title">📷 摄像头管理</view>
+      <view class="subtitle">管理监控摄像头信息</view>
+    </view>
+    <button class="btn-add" bindtap="toggleAddForm">
+      {{showAddForm ? '✕ 取消' : '+ 添加'}}
+    </button>
+  </view>
+
+  <view wx:if="{{showAddForm}}" class="card add-form">
+    <view class="form-title">➕ 添加新摄像头</view>
+    <view class="form-item">
+      <text class="label">编号 *</text>
+      <input class="form-input" data-field="id" bindinput="onInputChange" placeholder="如: CAM_001" />
+    </view>
+    <view class="form-item">
+      <text class="label">安装地点 *</text>
+      <input class="form-input" data-field="location" bindinput="onInputChange" placeholder="如: 图书馆一楼入口" />
+    </view>
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="label">楼栋</text>
+        <input class="form-input" data-field="building" bindinput="onInputChange" placeholder="如: 图书馆" />
+      </view>
+      <view class="form-item half">
+        <text class="label">楼层</text>
+        <input class="form-input" data-field="floor" type="number" bindinput="onInputChange" placeholder="如: 1" />
+      </view>
+    </view>
+    <view class="form-item">
+      <text class="label">描述说明</text>
+      <input class="form-input" data-field="description" bindinput="onInputChange" placeholder="详细描述（可选）" />
+    </view>
+    <button class="btn-submit" bindtap="addCamera">确认添加摄像头</button>
+  </view>
+
+  <view class="camera-count" wx:if="{{cameraList.length > 0}}">
+    共 {{cameraList.length}} 个摄像头
+  </view>
+
+  <view class="camera-list">
+    <view wx:for="{{cameraList}}" wx:key="id" class="card camera-item">
+      <view class="camera-header">
+        <view class="camera-id-badge">{{item.id}}</view>
+        <view class="status-dot status-{{item.status}}"></view>
+      </view>
+      <view class="camera-info">
+        <text class="camera-location">{{item.location}}</text>
+        <view class="camera-meta-row">
+          <text wx:if="{{item.building}}" class="camera-tag">🏢 {{item.building}}</text>
+          <text wx:if="{{item.floor}}" class="camera-tag">📍 {{item.floor}}层</text>
+        </view>
+        <text wx:if="{{item.description}}" class="camera-desc">{{item.description}}</text>
+      </view>
+      <view class="camera-actions">
+        <button class="btn-delete" size="mini" bindtap="deleteCamera" data-id="{{item.id}}">🗑 删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && cameraList.length === 0}}" class="empty-state">
+    <text class="empty-icon">📷</text>
+    <text class="empty-text">暂无摄像头</text>
+    <text class="empty-hint">点击上方添加按钮添加摄像头</text>
+  </view>
+</view>

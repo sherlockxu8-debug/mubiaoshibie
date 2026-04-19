@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索结果 - 校园失物寻找</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">📹</span>
+          <div class="logo-text">
+            <h1>校园失物寻找</h1>
+            <p>基于YOLO智能检测的监控视频物品检索系统</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-item" data-page="index">
+            <span class="nav-icon">🏠</span>首页
+          </a>
+          <a href="history.html" class="nav-item" data-page="history">
+            <span class="nav-icon">📋</span>历史
+          </a>
+          <a href="search.html" class="nav-item active" data-page="search">
+            <span class="nav-icon">🔍</span>搜索
+          </a>
+          <a href="camera.html" class="nav-item" data-page="camera">
+            <span class="nav-icon">📷</span>摄像头
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <section id="page-search" class="page active">
+          <div class="page-header">
+            <div class="header-left">
+              <h2>🔍 搜索结果</h2>
+              <p>按物品名称、摄像头等条件筛选检测结果</p>
+            </div>
+          </div>
+
+          <div class="card search-card">
+            <div class="search-form">
+              <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  id="keyword"
+                  placeholder="输入物品名称搜索，如：backpack, phone, wallet..."
+                  autocomplete="off"
+                >
+                <button class="btn-clear" id="btn-clear" style="display: none;">×</button>
+              </div>
+              <div class="search-filters">
+                <select id="camera-filter">
+                  <option value="">全部摄像头</option>
+                </select>
+                <select id="confidence-filter">
+                  <option value="0">不限置信度</option>
+                  <option value="0.3">30%+</option>
+                  <option value="0.5" selected>50%+</option>
+                  <option value="0.7">70%+</option>
+                  <option value="0.9">90%+</option>
+                </select>
+                <button class="btn-primary" id="btn-search">
+                  <span>🔍</span> 搜索
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="results-header" id="results-header" style="display: none;">
+              <span class="results-count">找到 <strong id="results-total">0</strong> 条结果</span>
+              <div class="results-sort">
+                <select id="sort-by">
+                  <option value="confidence">按置信度</option>
+                  <option value="timestamp">按时间</option>
+                </select>
+              </div>
+            </div>
+            <div id="result-list" class="result-list"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>校园失物寻找系统 Lost&Found © 2024</p>
+    </footer>
+  </div>
+
+  <div id="toast-container"></div>
+  <div class="modal" id="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">提示</h3>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/pages/search.js"></script>
+</body>
+</html>

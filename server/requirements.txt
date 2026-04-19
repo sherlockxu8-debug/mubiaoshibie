@@ -1,0 +1,9 @@
+fastapi>=0.100
+uvicorn[standard]
+opencv-python
+supervision
+ultralytics
+sqlalchemy
+python-multipart
+pyyaml
+pydantic

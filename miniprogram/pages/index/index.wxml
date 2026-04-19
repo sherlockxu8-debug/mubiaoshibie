@@ -1,0 +1,55 @@
+<view class="container">
+  <view class="header">
+    <view class="logo">📹</view>
+    <view class="title">校园失物寻找</view>
+    <view class="subtitle">基于YOLO智能检测的监控视频物品检索系统</view>
+  </view>
+
+  <view class="card upload-card">
+    <view class="section-title">📤 上传监控视频</view>
+
+    <view class="form-item">
+      <text class="label">选择摄像头</text>
+      <picker mode="selector" range="{{cameraList}}" range-key="location" bindchange="onCameraChange">
+        <view class="picker-value">
+          {{cameraList[selectedCameraIndex] ? cameraList[selectedCameraIndex].location : '请选择摄像头'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">选择视频</text>
+      <view class="video-preview" bindtap="chooseVideo">
+        <view wx:if="{{!videoPath}}" class="video-placeholder">
+          <text class="icon">🎬</text>
+          <text>点击选择视频</text>
+        </view>
+        <view wx:else class="video-selected">
+          <text class="icon">✅</text>
+          <text>{{videoPath}}</text>
+        </view>
+      </view>
+      <view wx:if="{{videoInfo}}" class="video-info">
+        <text>⏱️ {{videoInfo.duration}}秒</text>
+        <text>📦 {{(videoInfo.size / 1024 / 1024).toFixed(2)}}MB</text>
+      </view>
+    </view>
+
+    <button class="btn-upload" bindtap="uploadVideo" disabled="{{uploading || !videoPath}}">
+      {{uploading ? '上传中...' : '上传并开始检测'}}
+    </button>
+
+    <view wx:if="{{statusText}}" class="status">
+      <text wx:if="{{processing}}" class="loading-text">◌ {{statusText}}</text>
+      <text wx:else>{{statusText}}</text>
+    </view>
+  </view>
+
+  <view class="tips card">
+    <view class="tips-title">💡 使用提示</view>
+    <view class="tips-item">1. 选择对应的摄像头编号</view>
+    <view class="tips-item">2. 上传监控视频文件</view>
+    <view class="tips-item">3. 系统自动识别物品并记录</view>
+    <view class="tips-item">4. 可在历史记录中查看结果</view>
+  </view>
+</view>

@@ -1,0 +1,95 @@
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 20rpx 0 30rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.video-card {
+  margin-bottom: 20rpx;
+}
+
+.video-item {
+  display: flex;
+  align-items: center;
+}
+
+.video-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.video-info {
+  flex: 1;
+}
+
+.filename {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.meta-row {
+  display: flex;
+  gap: 20rpx;
+  flex-wrap: wrap;
+}
+
+.meta {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-top: 5rpx;
+}
+
+.status-badge {
+  font-size: 36rpx;
+}
+
+.empty-state, .loading-state {
+  text-align: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  display: block;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-top: 10rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 24rpx;
+}

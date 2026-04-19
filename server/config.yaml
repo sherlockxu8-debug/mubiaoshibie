@@ -1,0 +1,22 @@
+database:
+  path: "../database/lostandfound.db"
+
+yolo:
+  model_path: "../yolo/runs/train/weights/best.pt"
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  device: "cuda"  # cuda 或 cpu
+
+video:
+  upload_dir: "../uploads/videos"
+  max_size_mb: 500
+  supported_formats:
+    - mp4
+    - avi
+    - mov
+    - mkv
+
+app:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true

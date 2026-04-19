@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摄像头管理 - 校园失物寻找</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">📹</span>
+          <div class="logo-text">
+            <h1>校园失物寻找</h1>
+            <p>基于YOLO智能检测的监控视频物品检索系统</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-item" data-page="index">
+            <span class="nav-icon">🏠</span>首页
+          </a>
+          <a href="history.html" class="nav-item" data-page="history">
+            <span class="nav-icon">📋</span>历史
+          </a>
+          <a href="search.html" class="nav-item" data-page="search">
+            <span class="nav-icon">🔍</span>搜索
+          </a>
+          <a href="camera.html" class="nav-item active" data-page="camera">
+            <span class="nav-icon">📷</span>摄像头
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <section id="page-camera" class="page active">
+          <div class="page-header">
+            <div class="header-left">
+              <h2>📷 摄像头管理</h2>
+              <p>管理监控摄像头的编号和安装位置</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn-secondary" id="btn-refresh">
+                <span>🔄</span> 刷新
+              </button>
+              <button class="btn-primary" id="btn-toggle-form">
+                <span>+</span> 添加摄像头
+              </button>
+            </div>
+          </div>
+
+          <div class="add-form" id="add-form" style="display: none;">
+            <div class="card">
+              <h3 class="form-title">➕ 添加新摄像头</h3>
+              <form id="camera-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="camera-id">
+                      编号 <span class="required">*</span>
+                    </label>
+                    <input type="text" id="camera-id" placeholder="如: CAM_001" required maxlength="50">
+                    <span class="input-hint">摄像头的唯一标识符</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="camera-location">
+                      安装地点 <span class="required">*</span>
+                    </label>
+                    <input type="text" id="camera-location" placeholder="如: 图书馆一楼入口" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="camera-building">楼栋/区域</label>
+                    <input type="text" id="camera-building" placeholder="如: 图书馆">
+                  </div>
+                  <div class="form-group">
+                    <label for="camera-floor">楼层</label>
+                    <input type="number" id="camera-floor" placeholder="如: 1" min="0" max="100">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="camera-desc">描述说明</label>
+                  <textarea id="camera-desc" placeholder="详细描述（可选）" rows="2"></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn-secondary" onclick="hideForm()">
+                    取消
+                  </button>
+                  <button type="submit" class="btn-primary" id="btn-submit">
+                    <span>✓</span> 确认添加
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="list-header">
+              <span class="list-count">共 <strong id="camera-count">0</strong> 个摄像头</span>
+            </div>
+            <div id="camera-list" class="camera-list"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>校园失物寻找系统 Lost&Found © 2024</p>
+    </footer>
+  </div>
+
+  <div id="toast-container"></div>
+  <div class="modal" id="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">提示</h3>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal" id="edit-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>✏️ 编辑摄像头</h3>
+        <button class="modal-close" onclick="closeEditModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="edit-form">
+          <input type="hidden" id="edit-id">
+          <div class="form-group">
+            <label>编号</label>
+            <input type="text" id="edit-id-display" disabled style="background: #f5f5f5;">
+          </div>
+          <div class="form-group">
+            <label for="edit-location">安装地点 *</label>
+            <input type="text" id="edit-location" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="edit-building">楼栋/区域</label>
+              <input type="text" id="edit-building">
+            </div>
+            <div class="form-group">
+              <label for="edit-floor">楼层</label>
+              <input type="number" id="edit-floor" min="0" max="100">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="edit-desc">描述说明</label>
+            <textarea id="edit-desc" rows="2"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeEditModal()">取消</button>
+        <button class="btn-primary" onclick="submitEdit()">保存修改</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/pages/camera.js"></script>
+</body>
+</html>
