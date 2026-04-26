@@ -25,104 +25,86 @@
       </div>
     </div>
 
-    <!-- Upload Card -->
-    <div class="card upload-card">
-      <div class="section-header">
-        <h2>📤 上传监控视频</h2>
-        <p>选择对应的摄像头，上传监控视频进行物品检测</p>
-      </div>
+    <div class="content-row">
+      <!-- Upload Card -->
+      <div class="card upload-card">
+        <div class="section-header">
+          <h2>📤 上传监控视频</h2>
+          <p>选择对应的摄像头，上传监控视频进行物品检测</p>
+        </div>
 
-      <el-form :model="form" :rules="rules" ref="formRef" label-width="120px">
-        <el-form-item label="选择摄像头" prop="cameraId">
-          <el-select v-model="form.cameraId" placeholder="请选择摄像头" style="width: 100%">
-            <el-option
-              v-for="camera in cameras"
-              :key="camera.id"
-              :label="`${camera.id} - ${camera.location}`"
-              :value="camera.id"
-            />
-          </el-select>
-        </el-form-item>
+        <el-form :model="form" :rules="rules" ref="formRef">
+          <el-form-item label="选择摄像头" prop="cameraId">
+            <el-select v-model="form.cameraId" placeholder="请选择摄像头" style="width: 100%">
+              <el-option
+                v-for="camera in cameras"
+                :key="camera.id"
+                :label="`${camera.id} - ${camera.location}`"
+                :value="camera.id"
+              />
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="选择视频">
-          <el-upload
-            ref="uploadRef"
-            :auto-upload="false"
-            :limit="1"
-            :on-change="handleFileChange"
-            :on-remove="handleFileRemove"
-            drag
-            action="#"
-            accept="video/*"
-          >
-            <div class="upload-content">
-              <span class="upload-icon">📤</span>
-              <span class="upload-text">点击或拖拽视频文件到此处</span>
-              <span class="upload-hint">支持 MP4, AVI, MOV, MKV 格式，最大 500MB</span>
+          <el-form-item label="选择视频">
+            <el-upload
+              ref="uploadRef"
+              :auto-upload="false"
+              :limit="1"
+              :on-change="handleFileChange"
+              :on-remove="handleFileRemove"
+              drag
+              action="#"
+              accept="video/*"
+            >
+              <div class="upload-content">
+                <span class="upload-icon">📤</span>
+                <span class="upload-text">点击或拖拽视频文件到此处</span>
+                <span class="upload-hint">支持 MP4, AVI, MOV, MKV 格式，最大 500MB</span>
+              </div>
+            </el-upload>
+          </el-form-item>
+
+          <el-form-item v-if="videoFile">
+            <div class="video-info">
+              <span>📹 {{ videoFile.name }}</span>
+              <span>📦 {{ formatFileSize(videoFile.size) }}</span>
             </div>
-          </el-upload>
-        </el-form-item>
+          </el-form-item>
 
-        <el-form-item v-if="videoFile">
-          <div class="video-info">
-            <span>📹 {{ videoFile.name }}</span>
-            <span>📦 {{ formatFileSize(videoFile.size) }}</span>
+          <el-form-item>
+            <el-button type="primary" :loading="uploading" @click="handleUpload" style="width: 100%">
+              {{ uploading ? '上传中...' : '上传并开始检测' }}
+            </el-button>
+          </el-form-item>
+        </el-form>
+
+        <!-- Progress -->
+        <div v-if="uploading" class="upload-progress">
+          <el-progress :percentage="progress" :status="progressStatus" />
+          <p class="progress-text">{{ progressText }}</p>
+        </div>
+      </div>
+
+      <!-- Tips & Actions -->
+      <div class="side-panel">
+        <div class="card tips-card">
+          <h3>💡 使用步骤</h3>
+          <div class="tips-list">
+            <div class="tip-item"><span class="tip-num">1</span> 选择摄像头</div>
+            <div class="tip-item"><span class="tip-num">2</span> 上传视频文件</div>
+            <div class="tip-item"><span class="tip-num">3</span> 系统自动检测</div>
+            <div class="tip-item"><span class="tip-num">4</span> 查看检测结果</div>
           </div>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button type="primary" :loading="uploading" @click="handleUpload" style="width: 100%">
-            {{ uploading ? '上传中...' : '上传并开始检测' }}
-          </el-button>
-        </el-form-item>
-      </el-form>
-
-      <!-- Progress -->
-      <div v-if="uploading" class="upload-progress">
-        <el-progress :percentage="progress" :status="progressStatus" />
-        <p class="progress-text">{{ progressText }}</p>
-      </div>
-    </div>
-
-    <!-- Tips -->
-    <div class="card tips-card">
-      <h3>💡 使用提示</h3>
-      <div class="tips-grid">
-        <div class="tip-item">
-          <span class="tip-number">1</span>
-          <span>选择对应的摄像头编号</span>
         </div>
-        <div class="tip-item">
-          <span class="tip-number">2</span>
-          <span>上传监控视频文件</span>
-        </div>
-        <div class="tip-item">
-          <span class="tip-number">3</span>
-          <span>系统自动识别物品并记录</span>
-        </div>
-        <div class="tip-item">
-          <span class="tip-number">4</span>
-          <span>可在历史记录中查看检测结果</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- Quick Actions -->
-    <div class="quick-actions">
-      <h3>⚡ 快捷操作</h3>
-      <div class="action-buttons">
-        <router-link to="/history" class="action-btn">
-          <span class="action-icon">📋</span>
-          <span>查看历史</span>
-        </router-link>
-        <router-link to="/search" class="action-btn">
-          <span class="action-icon">🔍</span>
-          <span>搜索物品</span>
-        </router-link>
-        <router-link to="/camera" class="action-btn">
-          <span class="action-icon">📷</span>
-          <span>管理摄像头</span>
-        </router-link>
+        <div class="card actions-card">
+          <h3>⚡ 快捷操作</h3>
+          <div class="action-buttons">
+            <router-link to="/history" class="action-btn">📋 查看历史</router-link>
+            <router-link to="/search" class="action-btn">🔍 搜索物品</router-link>
+            <router-link to="/camera" class="action-btn">📷 管理摄像头</router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -205,10 +187,7 @@ const handleUpload = async () => {
 
     progress.value = 50
     progressText.value = '上传成功，等待处理...'
-
-    // Poll for processing status
     pollVideoStatus(result.id)
-
   } catch (error) {
     uploading.value = false
     progressStatus.value = 'exception'
@@ -228,18 +207,16 @@ const pollVideoStatus = async (videoId) => {
         progressText.value = '处理完成！'
         uploading.value = false
         ElMessage.success('检测完成')
-        setTimeout(() => {
-          window.location.href = '/history'
-        }, 1500)
+        setTimeout(() => { window.location.href = '/history' }, 1500)
       } else if (status.status === 'failed') {
         progressStatus.value = 'exception'
         progressText.value = '处理失败'
         uploading.value = false
         ElMessage.error('视频处理失败')
       } else {
-        const processingProgress = status.progress || 0
-        progress.value = 50 + Math.round(processingProgress * 0.5)
-        progressText.value = `处理中... ${processingProgress}%`
+        const p = status.progress || 0
+        progress.value = 50 + Math.round(p * 0.5)
+        progressText.value = `处理中... ${p}%`
         setTimeout(poll, 2000)
       }
     } catch {
@@ -249,9 +226,7 @@ const pollVideoStatus = async (videoId) => {
   poll()
 }
 
-onMounted(() => {
-  loadData()
-})
+onMounted(() => { loadData() })
 </script>
 
 <style scoped>
@@ -259,51 +234,38 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .stat-card {
   background: #ffffff;
-  border-radius: 8px;
-  padding: 20px 24px;
+  border-radius: 12px;
+  padding: 24px 28px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
+  gap: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
+.stat-icon { font-size: 40px; }
+.stat-value { font-size: 32px; font-weight: 700; color: #303133; }
+.stat-label { font-size: 15px; color: #909399; }
 
-.stat-icon {
-  font-size: 36px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #303133;
-  line-height: 1.2;
-}
-
-.stat-label {
-  font-size: 13px;
-  color: #909399;
+.content-row {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
 }
 
 .card {
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .section-header {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid #e4e7ed;
 }
@@ -319,7 +281,7 @@ onMounted(() => {
 
 .section-header p {
   color: #909399;
-  font-size: 13px;
+  font-size: 14px;
   margin-top: 4px;
 }
 
@@ -330,136 +292,78 @@ onMounted(() => {
   padding: 40px 0;
 }
 
-.upload-icon {
-  font-size: 48px;
-  opacity: 0.6;
-}
-
-.upload-text {
-  font-size: 14px;
-  color: #606266;
-  margin-top: 10px;
-}
-
-.upload-hint {
-  font-size: 12px;
-  color: #c0c4cc;
-  margin-top: 5px;
-}
+.upload-icon { font-size: 48px; opacity: 0.6; }
+.upload-text { font-size: 15px; color: #606266; margin-top: 12px; }
+.upload-hint { font-size: 13px; color: #c0c4cc; margin-top: 6px; }
 
 .video-info {
   display: flex;
   gap: 20px;
   padding: 12px;
   background: #f5f7fa;
-  border-radius: 4px;
-  font-size: 13px;
+  border-radius: 6px;
+  font-size: 14px;
   color: #606266;
 }
 
-.upload-progress {
-  margin-top: 20px;
-}
+.upload-progress { margin-top: 16px; }
+.progress-text { text-align: center; font-size: 14px; color: #909399; margin-top: 8px; }
 
-.progress-text {
-  text-align: center;
-  font-size: 13px;
-  color: #909399;
-  margin-top: 10px;
-}
+.side-panel { display: flex; flex-direction: column; gap: 20px; }
 
-.tips-card h3 {
-  font-size: 15px;
-  margin-bottom: 14px;
+.tips-card h3, .actions-card h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
   color: #303133;
 }
 
-.tips-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
+.tips-list { display: flex; flex-direction: column; gap: 12px; }
 
 .tip-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  background: #f5f7fa;
-  border-radius: 4px;
+  gap: 14px;
+  font-size: 15px;
+  color: #606266;
 }
 
-.tip-number {
-  width: 24px;
-  height: 24px;
+.tip-num {
+  width: 26px;
+  height: 26px;
   background: #409eff;
   color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.tip-item span:last-child {
   font-size: 13px;
-  color: #606266;
-}
-
-.quick-actions h3 {
-  font-size: 15px;
-  margin-bottom: 14px;
-  color: #303133;
+  font-weight: 600;
 }
 
 .action-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 24px 16px;
-  background: #ffffff;
+  display: block;
+  text-align: center;
+  padding: 14px;
+  background: #f5f7fa;
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: #303133;
+  color: #606266;
+  font-size: 15px;
   transition: all 0.3s;
 }
 
 .action-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  color: #409eff;
+  background: #409eff;
+  color: #fff;
 }
 
-.action-icon {
-  font-size: 32px;
-}
-
-.action-btn span:last-child {
-  font-size: 13px;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .stats-row {
-    grid-template-columns: 1fr;
-  }
-
-  .tips-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .action-buttons {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 900px) {
+  .content-row { grid-template-columns: 1fr; }
 }
 </style>

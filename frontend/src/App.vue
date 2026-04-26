@@ -24,7 +24,7 @@ import AppFooter from './components/common/AppFooter.vue'
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: #303133;
   background: #f5f7fa;
@@ -39,13 +39,13 @@ body {
 
 .main {
   flex: 1;
-  padding: 90px 0 30px;
+  padding: 70px 0 24px;
 }
 
 .container {
-  width: 1200px;
-  max-width: 95%;
+  width: 1400px;
+  max-width: 98%;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 12px;
 }
 </style>

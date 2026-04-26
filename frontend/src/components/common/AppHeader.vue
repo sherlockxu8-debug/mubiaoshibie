@@ -39,7 +39,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: 60px;
+  height: 56px;
   background: #ffffff;
   display: flex;
   justify-content: center;
@@ -50,7 +50,7 @@
 
 .header-container {
   width: 1200px;
-  max-width: 95%;
+  max-width: 98%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@
 
 .app-name a {
   color: #409eff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   text-decoration: none;
   display: flex;
@@ -72,13 +72,13 @@
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-item {
@@ -89,7 +89,7 @@
   color: #606266;
   text-decoration: none;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   transition: all 0.3s;
 }
@@ -111,19 +111,5 @@
 
 .nav-icon {
   font-size: 16px;
-}
-
-@media (max-width: 768px) {
-  .header-container {
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px 0;
-    height: auto;
-  }
-
-  .nav-item {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
 }
 </style>
