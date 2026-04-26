@@ -28,31 +28,20 @@ class ModelInfoResponse(BaseModel):
 @router.get("/status", response_model=ModelStatusResponse)
 def get_status():
     """获取当前模型状态"""
-    # 确保检测器已初始化
+    # 初始化检测器（这会加载模型）
     detector = get_detector()
-    status = check_model_status()
 
-    # 如果全局检测器未初始化但模型已加载，更新状态
-    if not status.get("loaded") and detector.is_loaded():
-        info = detector.get_model_info()
-        return ModelStatusResponse(
-            loaded=True,
-            model_name=info.model_name,
-            model_path=info.model_path,
-            device=info.device,
-            num_classes=info.num_classes,
-            class_names=info.class_names,
-            error=info.error
-        )
+    # 获取模型信息
+    info = detector.get_model_info()
 
     return ModelStatusResponse(
-        loaded=status.get("loaded", False),
-        model_name=status.get("model_name", ""),
-        model_path=status.get("model_path", ""),
-        device=status.get("device", "cpu"),
-        num_classes=status.get("num_classes", 0),
-        class_names=status.get("class_names", []),
-        error=status.get("error")
+        loaded=info.loaded,
+        model_name=info.model_name,
+        model_path=info.model_path,
+        device=info.device,
+        num_classes=info.num_classes,
+        class_names=info.class_names,
+        error=info.error
     )
 
 

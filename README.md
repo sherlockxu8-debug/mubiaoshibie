@@ -5,6 +5,8 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-green.svg)
 ![FastAPI](https://img.shields.io/badge/fastapi-0.100+-orange.svg)
+![Vue](https://img.shields.io/badge/vue-3.4+-42b983.svg)
+![ElementPlus](https://img.shields.io/badge/element--plus-2.0+-409eff.svg)
 
 ## 功能特性
 
@@ -20,7 +22,7 @@
 
 | 层级 | 技术 | 说明 |
 |------|------|------|
-| 前端 | HTML5 + CSS3 + JavaScript | 响应式网页设计 |
+| 前端 | Vue 3 + Element Plus | 现代化响应式网页 |
 | 后端 | FastAPI + Python | 高性能 REST API |
 | 检测 | YOLOv8 + OpenCV | 实时目标检测 |
 | 数据库 | SQLite + SQLAlchemy | 轻量级关系数据库 |
@@ -59,22 +61,26 @@
 
 ```
 LostAndFound/
-├── web/                         # 网页前端
-│   ├── index.html               # 首页（视频上传）
-│   ├── history.html             # 检测历史
-│   ├── search.html              # 搜索结果
-│   ├── camera.html              # 摄像头管理
-│   ├── css/
-│   │   ├── style.css            # 基础样式
-│   │   └── components.css       # 组件样式
-│   └── js/
-│       ├── api.js              # API 请求封装
-│       ├── utils.js            # 工具函数
-│       └── pages/
-│           ├── index.js         # 首页逻辑
-│           ├── history.js       # 历史记录
-│           ├── search.js        # 搜索功能
-│           └── camera.js        # 摄像头管理
+├── frontend/                     # Vue.js 前端
+│   ├── src/
+│   │   ├── api/                 # API 请求封装
+│   │   │   └── index.js         # API 接口
+│   │   ├── components/          # 公共组件
+│   │   │   └── common/
+│   │   │       ├── AppHeader.vue
+│   │   │       └── AppFooter.vue
+│   │   ├── router/              # 路由配置
+│   │   │   └── index.js
+│   │   ├── views/               # 页面组件
+│   │   │   ├── Index.vue        # 首页（视频上传）
+│   │   │   ├── History.vue      # 检测历史
+│   │   │   ├── Search.vue       # 搜索结果
+│   │   │   └── Camera.vue       # 摄像头管理
+│   │   ├── App.vue              # 根组件
+│   │   └── main.js             # 入口文件
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
 │
 ├── server/                      # 后端服务
 │   ├── main.py                  # FastAPI 入口
@@ -90,7 +96,7 @@ LostAndFound/
 │   └── services/                # 业务逻辑
 │       ├── database.py          # 数据库连接
 │       ├── detector.py          # YOLO 检测服务
-│       └── video_processor.py    # 视频处理
+│       └── video_processor.py   # 视频处理
 │
 ├── yolo/                        # YOLO 模型
 │   ├── train.py                 # 训练脚本
@@ -108,47 +114,33 @@ LostAndFound/
 ### 1. 环境要求
 
 - Python 3.8+
+- Node.js 18+
 - SQLite
 - 现代浏览器（Chrome、Firefox、Safari、Edge）
 
-### 2. 安装依赖
+### 2. 启动后端
 
 ```bash
-# 克隆项目
 cd server
-
-# 安装 Python 依赖
 pip install -r requirements.txt
-```
-
-### 3. 初始化数据库
-
-```bash
-cd database
-sqlite3 lostandfound.db < schema.sql
-```
-
-### 4. 启动后端服务
-
-```bash
-cd server
 uvicorn main:app --reload --port 8000
 ```
 
 后端服务将在 http://localhost:8000 启动
 
-### 5. 打开网页
-
-直接在浏览器中打开 `web/index.html`
-
-或使用 Python 静态文件服务器：
+### 3. 启动前端
 
 ```bash
-cd web
-python -m http.server 8080
+cd frontend
+npm install
+npm run dev
 ```
 
-访问 http://localhost:8080
+前端将在 http://localhost:5173 启动
+
+### 4. 访问应用
+
+打开浏览器访问 http://localhost:5173
 
 ## 功能演示
 
@@ -165,14 +157,12 @@ python -m http.server 8080
 - 分页展示所有上传视频
 - 支持按状态筛选（全部/等待中/处理中/已完成/失败）
 - 点击跳转到对应视频的检测结果
-- 处理中的视频显示进度条
 
 ### 搜索结果
 
 - 输入物品名称关键词搜索
 - 按摄像头筛选
 - 按置信度筛选（30%/50%/70%/90%+）
-- 按时间或置信度排序
 - 置信度三色标识（高/中/低）
 
 ### 摄像头管理
@@ -181,7 +171,6 @@ python -m http.server 8080
 - 添加新摄像头（编号、地点、楼栋、楼层）
 - 编辑现有摄像头信息
 - 删除摄像头（二次确认）
-- 输入格式验证
 
 ## API 接口
 
@@ -305,10 +294,10 @@ app:
   debug: true
 ```
 
-### 前端配置 (web/js/api.js)
+### 前端 API 配置 (frontend/src/api/index.js)
 
 ```javascript
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'http://localhost:8000/api'
 ```
 
 如需修改后端地址，编辑此文件即可。
@@ -317,16 +306,15 @@ const API_BASE = 'http://localhost:8000/api';
 
 ### 添加新页面
 
-1. 在 `web/` 目录创建新的 HTML 文件
-2. 在 `web/js/pages/` 目录创建对应的 JS 文件
-3. 在 HTML 中引入必要的 CSS 和 JS 文件
-4. 在导航栏添加链接
+1. 在 `frontend/src/views/` 创建新的 Vue 组件
+2. 在 `frontend/src/router/index.js` 中添加路由
+3. 在 Header 组件中添加导航链接
 
 ### 添加新的 API 接口
 
 1. 在 `server/api/` 目录创建路由文件
 2. 在 `server/main.py` 中注册路由
-3. 在 `web/js/api.js` 中添加调用方法
+3. 在 `frontend/src/api/index.js` 中添加调用方法
 
 ### 自定义检测类别
 
@@ -340,7 +328,6 @@ const API_BASE = 'http://localhost:8000/api';
 - YOLO 推理建议使用 GPU 加速
 - 大视频建议分段时间处理
 - 数据库已建立索引优化查询
-- 前端支持无限滚动分页加载
 
 ## 常见问题
 
@@ -361,4 +348,6 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 - [Ultralytics](https://ultralytics.com) - YOLO 模型
 - [FastAPI](https://fastapi.tiangolo.com) - 后端框架
+- [Vue.js](https://vuejs.org) - 前端框架
+- [Element Plus](https://element-plus.org) - UI 组件库
 - [SQLAlchemy](https://www.sqlalchemy.org) - ORM 工具

@@ -9,7 +9,7 @@ from typing import Optional, List
 from models.models import Video, Camera
 from models.schemas import VideoResponse, VideoStatusResponse, PaginatedResponse
 from services.database import get_db
-from services.detector import YOLODetector
+from services.detector import get_detector
 from services.video_processor import VideoProcessor
 
 config_path = Path(__file__).parent.parent / "config.yaml"
@@ -21,7 +21,8 @@ upload_dir.mkdir(parents=True, exist_ok=True)
 
 router = APIRouter(prefix="/video", tags=["video"])
 
-detector = YOLODetector(
+# 使用全局检测器实例
+detector = get_detector(
     model_path=str(Path(__file__).parent.parent.parent / config["yolo"]["model_path"]),
     conf_threshold=config["yolo"]["conf_threshold"],
     iou_threshold=config["yolo"]["iou_threshold"],
